@@ -1,0 +1,16 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.gitignore
+.pytest_cache/
+tests/
+notebooks/
+*.md
+!SOLUTION.md
+data/archive.zip
+data/archive/
+profile*.txt
+explore*.py
+benchmark.py

@@ -1,0 +1,20 @@
+# --- core ---
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+scipy>=1.10
+
+# --- api ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+pydantic>=2.0
+
+# --- part 3: vector search ---
+# hnswlib implements HNSW (Malkov & Yashunin, arXiv:1603.09320).
+# Chosen over faiss-cpu, which has no wheels for Python 3.13+ on Windows
+# and falls back to a SWIG source build.
+hnswlib>=0.8.0
+
+# --- dev ---
+pytest>=7.4
+httpx>=0.26

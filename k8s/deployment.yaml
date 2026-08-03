@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-similarity
+  labels: { app: product-similarity }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: product-similarity }
+  template:
+    metadata:
+      labels: { app: product-similarity }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: api
+          image: product-similarity:latest
+          ports: [{ containerPort: 8000 }]
+          resources:
+            # The feature matrix is ~139 MB; requests allow headroom for
+            # the HNSW graph and Python overhead.
+            requests: { memory: "512Mi", cpu: "250m" }
+            limits:   { memory: "1Gi",   cpu: "1000m" }
+          livenessProbe:
+            httpGet: { path: /health, port: 8000 }
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            # Index build takes ~30s; readiness gates traffic until then.
+            httpGet: { path: /ready, port: 8000 }
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 12
+          startupProbe:
+            httpGet: { path: /ready, port: 8000 }
+            failureThreshold: 30
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-similarity
+spec:
+  selector: { app: product-similarity }
+  ports: [{ port: 80, targetPort: 8000 }]
+  type: ClusterIP
