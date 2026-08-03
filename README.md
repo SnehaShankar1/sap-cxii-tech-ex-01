@@ -1,6 +1,6 @@
 # Product Similarity Search
 
-This project implements a product similarity search service for the **SAP technical exercise**. Given a product ID from the Amazon Fashion catalogue (approximately **30,000 products**), it returns the most similar products using a feature-based similarity model.
+This project implements a product similarity search service. Given a product ID from the Amazon Fashion catalogue (approximately **30,000 products**), it returns the most similar products using a feature-based similarity model.
 
 A detailed explanation of the approach, feature engineering decisions, data quality observations, assumptions, limitations, and possible improvements is available in **[SOLUTION.md](SOLUTION.md)**.
 
